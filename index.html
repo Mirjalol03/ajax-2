@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bg-info">
+    <div class="container">
+     <div class="card" style="text-align: center; background-color: transparent; border: none; color: #fff;">Xabarlar</div>
+
+
+        <div style="text-align: center;" id="accordion">
+
+        </div>
+
+    </div>
+
+
+    <script>
+        let ajax = new XMLHttpRequest();
+
+        ajax.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+                printPost(this.response);
+            } else {
+                console.log('xato')
+            }
+        }
+
+        ajax.open("GET", "json.txt");
+        ajax.send();
+
+   function printPost(keluvchiJson){
+        let xabarlar = JSON.parse(keluvchiJson);
+        
+
+        let list = document.getElementById('accordion');
+
+        //list.remove();
+
+        for(let i = 0; i < xabarlar.length; i++){
+            list.innerHTML +=
+    //          `
+    //     <div class="card">
+    //       <div class="card-header">
+    //         <a class="card-link" data-toggle="collapse" href="#id${xabarlar[i].id}">
+    //           ${xabarlar[i].id} - ${xabarlar[i].title} 
+    //         </a>
+    //       </div>
+    //       <div id="id${xabarlar[i].id}" class="collapse hide" data-parent="#accordion">
+    //         <div class="card-body">
+    //             <img src="${xabarlar[i].url}"></img> 
+    //         </div>
+    //       </div>
+    //     </div>
+    //   `
+
+      `
+  <div class="card d-inline-block mb-4 ml-5" style=" width:250px; border:0px 0px 10px 10px #000" id="xabar${xabarlar[i].id}">
+    <div class="card-body">
+      <h4 id="editTit${xabarlar[i].id}" class="card-title">${xabarlar[i].id} - card</h4>
+      <p id="editBod${xabarlar[i].id}" class="card-text">${xabarlar[i].title}</p>
+      <button type="button" style="float:left;" onclick="addNew()" class="btn btn-primary">Mani Bos</button>
+      <button type="button" style="float:right" class="btn btn-sm btn-danger" onclick="removePost(${xabarlar[i].id})">X</button> <br><br>
+    </div>
+    <img class="card-img-bottom" src="${xabarlar[i].thumbnailUrl}" alt="Card image" style="width:100%">
+  </div>
+      `
+        }
+
+   }
+
+
+
+   // X tugmasi
+   function removePost(id) {
+       //ajax
+       let ajax = new XMLHttpRequest();
+       //ajax
+       ajax.onreadystatechange = function(){
+         if(this.readyState == 4 && this.status == 200){
+           document.getElementById('xabar'+id).remove();
+         }
+ 
+ 
+       }
+ 
+ 
+       ajax.open('DELETE', 'json.txt'+id);
+       ajax.send();
+ 
+     }
+
+
+
+
+     //html codi
+
+     /*
+        <div class="container">
+        <h2>Yangi post yaratish</h2>
+        <form name="myForm">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" placeholder="Sarlavhani kiriting: " name="title">
+            </div>
+            <div class="form-group">
+                <label for="text">Post matni:</label>
+                <input type="text" class="form-control" id="text" placeholder="Post matnini kiriting: " name="text">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="add()">Qo'shish</button>
+        </form>
+    </div>
+     */
+
+
+     // mani bos (edit) tugmasi codi
+     // MAni bos tugmasini bosganda textlari title va body textlarini uzgartirish imokonini beruvchi tugma qilmoqchi edim lekin uxshamadi 
+     function addNew() {
+         let editTitBack = getElementById(`editTit${xabarlar[i].id}`).innerHTML = `
+             <form name="myForm">
+                <input type="text" class="form-control" id="text" placeholder="title matnini kiriting: " name="text">
+            </form>
+         `;
+
+            // let form = document.forms['myForm'];
+            // let formData = new FormData(form);
+            // let newPost = {
+            //     title: formData.get('title'),
+            //     body: formData.get('text')
+            // }
+            // let ajax = new XMLHttpRequest();
+
+            // ajax.onreadystatechange = function(){
+            //     if(this.readyState == 4 && this.status == 201){
+            //         console.log(this.response);
+            //     } else {
+            //         console.log('xato', this.status);
+            //     }
+
+            // }
+
+            // ajax.open('POST', "https://jsonplaceholder.typicode.com/posts")
+            // ajax.setRequestHeader('Content-Type', 'aplication/json');
+
+            // ajax.send(newPost);
+
+        }
+
+    </script>
+</body>
+
+</html>
